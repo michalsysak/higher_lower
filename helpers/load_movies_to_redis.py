@@ -21,7 +21,7 @@ headers = {
     "Authorization": f"Bearer {API_TOKEN}"
 }
 
-
+#TODO delete records that might score 0 (if vote count < 1 or vote average < 1)
 def fetch_movies(max_pages = None):
     all_movies = []
     for page in range(1, max_pages + 1):
@@ -52,7 +52,7 @@ def fetch_movies(max_pages = None):
 
 
 # Fetch movies
-movies = fetch_movies(max_pages=3)
+movies = fetch_movies(max_pages=4)
 
 # Print the movies data in terminal as json
 #print(json.dumps(movies, indent=4))
@@ -66,6 +66,7 @@ for movie in movies:
     redis_key = f"movie:{movie['id']}"
 
     # Add each field only if it does not exist
+    redis_client.hsetnx(redis_key, "id", movie["id"])
     redis_client.hsetnx(redis_key, "title", movie["title"])
     redis_client.hsetnx(redis_key, "vote_average", movie["vote_average"])
     redis_client.hsetnx(redis_key, "vote_count", movie["vote_count"])
