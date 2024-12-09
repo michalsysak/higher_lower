@@ -51,9 +51,11 @@ def game():
         if user_guess == correct_guess:
             session['score'] += 1
         else:
-            # Update Redis leaderboard before showing Game Over
+            # Update Redis leaderboard before showing Game Over and set highscore
             username = session['username']
-            redis_client.zadd(LEADERBOARD_KEY, {username: session['score']})
+            stored_score = redis_client.zscore(LEADERBOARD_KEY, username)
+            if stored_score is None or session['score'] > stored_score:
+                redis_client.zadd(LEADERBOARD_KEY, {username: session['score']})
             return redirect('/game_over')
 
         # Generate new numbers
