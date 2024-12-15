@@ -16,6 +16,7 @@ POSTER_SIZE = "w500"
 API_TOKEN = os.getenv("TMDB_API_TOKEN")
 redis_client = redis.StrictRedis(host='localhost', port=6379, decode_responses=True)
 
+
 headers = {
     "accept": "application/json",
     "Authorization": f"Bearer {API_TOKEN}"

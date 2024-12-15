@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>Higher or Lower - Movie edyszion</h1>
-    <p>Username: {{ session['username'] }}</p>
+    <p>Username: {{ username }}</p>
     <p>Current Score: {{ score }}</p>
     <p>Is <strong>{{ movie1['title'] }}</strong> more or less popular than <strong>{{ movie2['title'] }}</strong> right now?</p>
     <img id='movie1_image' src={{ movie1['poster_url'] }} alt={{ movie1['title'] }}>
