@@ -1,8 +1,10 @@
-from flask import Flask, render_template, request, session, redirect
+from flask import Flask, render_template, request, session, redirect, make_response
 import redis
 import random
 import os
 from dotenv import load_dotenv
+import time
+
 
 # Load environment variables
 load_dotenv()
@@ -15,9 +17,11 @@ redis_client = redis.StrictRedis(host='localhost', port=6379, decode_responses=T
 
 # Constants
 LEADERBOARD_KEY = "higher_lower:leaderboard"
-
+USER_KEY = "higher_lower:online_users"
+TIMEOUT = 3600 # Session timeout in seconds
 
 movies = []
+
 
 def load_movie_data_from_redis():
     """Load the movie data from redis db"""
@@ -38,20 +42,31 @@ def pick_random_movie():
     """Pick a random movie"""
     return random.choice(movies)
 
+def get_current_time_with_timeout():
+    return str(int(time.time() + TIMEOUT))
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     """Welcome page."""
     if request.method == 'POST':
         if request.form.get('start_game') == 'Start Game':
             session.clear()  # Clear session data when starting a new game
-            session['username'] = request.form.get('username', f"User_{random.randint(1000, 9999)}")#TODO add that 2 users dont get the same id
+            session['username'] = request.form.get('username')
+
+            # Set the session in redis
+            redis_client.hset(USER_KEY, session['username'], get_current_time_with_timeout())
+
+
             return redirect('/game')
     return render_template("index.html")
 
 @app.route('/game', methods=['GET', 'POST'])
 def game():
     """Main game logic."""
-    session['game_over']=False
+
+    # Check session status
+
+    session['game_over'] = False
     if 'score' not in session:
         # Assign the score and set the movie parameters
         session['score'] = 0
