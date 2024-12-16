@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for
 import redis
 import random
 import os
@@ -87,7 +87,7 @@ def index():
 
     if request.method == 'POST':
         if request.form.get('start_game') == 'Start Game':
-            username = request.form.get('username')
+            username = request.form.get('username').strip()
 
             tab_id = str(uuid.uuid4())  # Generate unique tab ID
 
@@ -113,17 +113,8 @@ def game(tab_id):
     # Retrieve tab-specific data
     tab_data = get_tab_data(tab_id)
 
-    # Handle non-existent keys
-    if not tab_data:
-        # Initialize data for a new tab session
-        tab_data = {
-            'username': session.get('username', 'Guest'),
-            'score': 0,
-            'game_over': False,
-            'movie1': pick_random_movie(),
-            'movie2': pick_random_movie(),
-        }
-        save_tab_data(tab_id, tab_data)
+    if tab_data['game_over']:
+        return redirect(url_for('game_over'))
 
     # Ensure movies are different
     while tab_data['movie1']['id'] == tab_data['movie2']['id']:
@@ -186,7 +177,7 @@ def game_over(tab_id):
         save_tab_data(tab_id, tab_data)
         return redirect(url_for('game', tab_id=tab_id))
 
-    return render_template('game_over.html', score=tab_data['score'])
+    return render_template('game_over.html', username=tab_data['username'], score=tab_data['score'])
 
 
 @app.route('/leaderboard')
