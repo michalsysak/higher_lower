@@ -1,21 +1,21 @@
-# Use an official Python runtime as a parent image
-FROM python:3.11-slim
+# Use Python as the base image
+FROM python:3.11
 
-# Set the working directory in the container
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# Set working directory
 WORKDIR /app
 
-# Copy application files to the container
+# Copy project files
 COPY . /app
 
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Ensure the .env file is available in the container
-ENV PYTHONUNBUFFERED=1
-COPY .env /app/.env
-
 # Expose the Flask port
 EXPOSE 5000
 
-# Run the Flask app
+# Start Flask app
 CMD ["python", "app.py"]
