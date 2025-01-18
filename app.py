@@ -54,7 +54,7 @@ def get_tab_data(tab_id):
     tab_data = redis_client.hgetall(tab_key)
     if tab_data:
         if 'movie1' in tab_data:
-            tab_data['movie1'] = eval(tab_data['movie1'])  # Or use `json.loads` if JSON is used
+            tab_data['movie1'] = eval(tab_data['movie1'])
         if 'movie2' in tab_data:
             tab_data['movie2'] = eval(tab_data['movie2'])
         if 'score' in tab_data:
@@ -77,7 +77,6 @@ def save_tab_data(tab_id, data):
 
 
 # Load movie data
-#load_movie_data_from_redis()
 init()
 
 # Routes
@@ -89,7 +88,8 @@ def index():
         if request.form.get('start_game') == 'Start Game':
             username = request.form.get('username').strip()
 
-            tab_id = str(uuid.uuid4())  # Generate unique tab ID
+            # Generate unique tab ID
+            tab_id = str(uuid.uuid4())
 
             # Initialize tab-specific data in Redis
             save_tab_data(tab_id, {
