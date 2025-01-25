@@ -7,12 +7,14 @@
     <title>Game Over</title>
 </head>
 <body>
+    <div class="container">
     <h1>Game Over</h1>
-    <p>Username: {{ username }}</p>
-    <p>Your final score: {{ score }}</p>
-    <form method="post">
-        <input type="submit" value="Play Again">
-    </form>
-    <a href="/leaderboard">View Leaderboard</a>
+    <p class="card_p">Username: <a>{{ username }}</a></p>
+    <p class="card_p">Your final score: <a>{{ score }}</p>
+    <form action="/" method="get">
+    <button type="submit" class="btn">Play Again</button>
+  </form>
+    <a class="card_a" href="/leaderboard">View Leaderboard</a>
+    </div>
 </body>
 </html>

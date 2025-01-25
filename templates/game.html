@@ -7,10 +7,11 @@
     <title>Higher or Lower</title>
 </head>
 <body>
-    <h1>Higher or Lower - Movie edyszion</h1>
-    <p>Username: {{ username }}</p>
-    <p>Current Score: {{ score }}</p>
-    <p>Is <strong>{{ movie1['title'] }}</strong> more or less popular than <strong>{{ movie2['title'] }}</strong> right now?</p>
+    <div class="main">
+    <h1 class="title">Higher or Lower - Movie edyszion</h1>
+    <a class="main_a">Username: <strong>{{ username }}</strong></a>
+    <a class="main_a">Current Score: <strong>{{ score }}</strong></a>
+    <p class="main_p_movie">Is <strong>{{ movie1['title'] }}</strong> more or less popular than <strong>{{ movie2['title'] }}</strong> right now?</p>
     <img id='movie1_image' src={{ movie1['poster_url'] }} alt={{ movie1['title'] }}>
     <img id='movie2_image' src={{ movie2['poster_url'] }} alt={{ movie2['title'] }}>
 
@@ -18,6 +19,7 @@
         <button type="submit" name="guess" value="higher">More</button>
         <button type="submit" name="guess" value="lower">Less</button>
     </form>
-    <a href="/leaderboard">View Leaderboard</a>
+    <a class="card_a" href="/leaderboard">View Leaderboard</a>
+    </div>
 </body>
 </html>

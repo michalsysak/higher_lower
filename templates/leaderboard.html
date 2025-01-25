@@ -7,11 +7,16 @@
     <title>Leaderboard</title>
 </head>
 <body>
+    <div class="container">
     <h1>Leaderboard</h1>
-    <ol>
+    <ol class="card_ol">
         {% for user, score in top_players %}
-        <li>{{ user }}: {{ score }}</li>
+        <li class="card_li">{{ user }}: <a>{{ score }}</a></li>
         {% endfor %}
     </ol>
+     <form action="/" method="get">
+    <button type="submit" class="btn">Play Again</button>
+  </form>
+    </div>
 </body>
 </html>
