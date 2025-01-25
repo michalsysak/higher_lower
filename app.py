@@ -21,8 +21,8 @@ redis_client = redis.StrictRedis(host='localhost', port=6379, decode_responses=T
 
 # Constants
 LEADERBOARD_KEY = "higher_lower:leaderboard"
-TIMEOUT = 3600  # Session timeout in seconds
-TAB_SESSION_KEY = "tab_session:{}"  # Key pattern for tab-specific data
+TIMEOUT = 3600
+TAB_SESSION_KEY = "tab_session:{}"
 
 # Global movie list
 movies = []
@@ -73,7 +73,7 @@ def save_tab_data(tab_id, data):
         'movie1': str(data['movie1']),
         'movie2': str(data['movie2']),
     })
-    redis_client.expire(tab_key, TIMEOUT)  # Set expiration for tab session
+    redis_client.expire(tab_key, TIMEOUT)
 
 
 # Load movie data

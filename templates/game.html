@@ -12,14 +12,13 @@
     <a class="main_a">Username: <strong>{{ username }}</strong></a>
     <a class="main_a">Current Score: <strong>{{ score }}</strong></a>
     <p class="main_p_movie">Is <strong>{{ movie1['title'] }}</strong> more or less popular than <strong>{{ movie2['title'] }}</strong> right now?</p>
-    <img id='movie1_image' src={{ movie1['poster_url'] }} alt={{ movie1['title'] }}>
-    <img id='movie2_image' src={{ movie2['poster_url'] }} alt={{ movie2['title'] }}>
+    <img id='movie1_image' src="{{ movie1['poster_url'] }}" alt="{{ movie1['title'] }}">
+    <img id='movie2_image' src="{{ movie2['poster_url'] }}" alt="{{ movie2['title'] }}">
 
     <form method="post">
         <button type="submit" name="guess" value="higher">More</button>
         <button type="submit" name="guess" value="lower">Less</button>
     </form>
-    <a class="card_a" href="/leaderboard">View Leaderboard</a>
     </div>
 </body>
 </html>
