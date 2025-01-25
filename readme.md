@@ -15,24 +15,26 @@ która polega na tym że użytkownik odgaduje który z dwóch filmów jest bardz
 * **Redis**: Obsługa sesji i przetrzymywanie danych
 * **API**: Pobieranie danych o filmach z TMDB
 * **Frontend**: HTML z osadzonym Pythonem
+* **Docker**: Uruchamianie projektu w kontenerze
 
-## Uruchomienie:
-* Trzeba posiadać docker
-docker build -t higher_lower_movie . 
+## Uruchomienie używając docker:
+Kopiujemy repozytorium</br></br>
+W katalogu głównym projektu tworzymy plik "**.env**" w którym mamy: <br /><br />
 
-potrzeba dockera żeby uruchomić 
+FLASK_PORT=5000<br />
+REDIS_PORT=6379<br />
+REDIS_HOST=redis<br />
+TMDB_API_TOKEN=**[Twój API token z TMDB]**<br /><br />
 
-stawiasz sobie baze redisa :
-docker run -p 6379:6379 -it redis/redis-stack:latest
+(Porty **FLASK_PORT** i **REDIS_PORT** można zmieniać według potrzeb)</br></br>
+W miejscu **[Twój API token z TMDB]** wklejamy API key ze strony TMDB</br>
+https://developer.themoviedb.org/reference/intro/getting-started</br>
+Na stronie wybieramy "**Get API Key**" i postępujemy dalej z instrukcjami </br></br>
 
-instalujesz pozycje z requirements.txt
 
+W katalogu głównym projektu używamy poleceń:</br></br>
 
-użyj sobie keygen i stwórz FLASK_SECRET_KEY
-wklejasz FLASK_SECRET_KEY do .env 
+docker-compose build</br>
+docker-compose up</br></br>
 
-pliki dockerowe które są w projekcie to work in progress jak coś
-
-docker-compose build
-
-docker-compose up
+Uruchomioną aplikacje zobaczymy domyślnie na **localhost:5000**</br>

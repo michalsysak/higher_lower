@@ -6,7 +6,7 @@ services:
     image: redis/redis-stack:latest
     container_name: redis_higher_lower
     ports:
-      - "6379:6379"
+      - "${REDIS_PORT}:${REDIS_PORT}"
     env_file:
       - .env
     restart: always
@@ -15,7 +15,7 @@ services:
     build: .
     container_name: flask_higher_lower
     ports:
-      - "5000:5000"
+      - "${FLASK_PORT}:${FLASK_PORT}"
     depends_on:
       - redis
     env_file:

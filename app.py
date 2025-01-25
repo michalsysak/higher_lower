@@ -45,6 +45,7 @@ def connect_to_redis():
             print("Redis is not ready, retrying in 5 seconds...")
             time.sleep(5)
 
+
 redis_client = connect_to_redis()
 
 def load_movie_data_from_redis():
@@ -200,6 +201,5 @@ def leaderboard():
 
 # Run the app
 if __name__ == '__main__':
-    app.run(debug=True)
-    #from waitress import serve
-    #serve(app, host="0.0.0.0", port=8080)
+    flask_port = int(os.getenv("FLASK_PORT", 5000))
+    app.run(host="0.0.0.0", port=flask_port, debug=True)
