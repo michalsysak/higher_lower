@@ -5,35 +5,47 @@ import os
 from dotenv import load_dotenv
 import uuid
 import runpy
+import time
 
 # Load environment variables
 load_dotenv()
 
 # Flask app setup
 app = Flask(__name__)
-app.secret_key = os.getenv("FLASK_SECRET_KEY", "default_secret_key")  # Secure this key in production
+app.secret_key = os.urandom(24).hex()
 app.config['SESSION_TYPE'] = 'redis'
 app.config['SESSION_KEY_PREFIX'] = 'tab_session:'
 app.config['SECRET_KEY'] = 'your_secret_key'
-
-# Redis connection
-redis_client = redis.StrictRedis(host='localhost', port=6379, decode_responses=True)
 
 # Constants
 LEADERBOARD_KEY = "higher_lower:leaderboard"
 TIMEOUT = 3600
 TAB_SESSION_KEY = "tab_session:{}"
 
+
 # Global movie list
 movies = []
 
-# Utility functions
-
-#FOR DEVELOPMENT ONLY
 def init():
     redis_client.flushall()
     runpy.run_path("helpers/load_movies_to_redis.py")
     load_movie_data_from_redis()
+
+def connect_to_redis():
+    while True:
+        try:
+            # Próba połączenia z Redisem
+            return redis.StrictRedis(
+                host=os.getenv("REDIS_HOST", "redis"),
+                port=int(os.getenv("REDIS_PORT", 6379)),
+                decode_responses=True
+            )
+        except redis.ConnectionError:
+            # Jeśli połączenie się nie powiedzie, wyświetl komunikat i odczekaj 5 sekund
+            print("Redis is not ready, retrying in 5 seconds...")
+            time.sleep(5)
+
+redis_client = connect_to_redis()
 
 def load_movie_data_from_redis():
     """Load movie data from Redis."""
@@ -189,3 +201,5 @@ def leaderboard():
 # Run the app
 if __name__ == '__main__':
     app.run(debug=True)
+    #from waitress import serve
+    #serve(app, host="0.0.0.0", port=8080)

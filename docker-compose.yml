@@ -1,16 +1,19 @@
 version: '3.8'
 
 services:
+
   redis:
     image: redis/redis-stack:latest
-    container_name: redis-stack
+    container_name: redis_higher_lower
     ports:
       - "6379:6379"
+    env_file:
+      - .env
     restart: always
 
   flask-app:
     build: .
-    container_name: flask-app
+    container_name: flask_higher_lower
     ports:
       - "5000:5000"
     depends_on:
@@ -20,3 +23,4 @@ services:
     volumes:
       - .:/app
     restart: on-failure
+
